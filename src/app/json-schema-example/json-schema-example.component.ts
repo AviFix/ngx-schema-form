@@ -14,6 +14,7 @@ import binding_sample_schema from './binding_sample_schema.json';
 import binding_sample_model from './binding_sample_model.json';
 import binding_sample_bindings from './binding_sample_bindings';
 import visibility_binding_example from './visibility-binding-example-schema.json';
+import issue_308 from './issue308schema.json';
 
 import {AppService, AppData} from '../app.service';
 
@@ -34,10 +35,11 @@ export class JsonSchemaExampleComponent implements OnInit, OnDestroy {
   private subs: Subscription;
 
   samples = [
-    {label: 'Sample 1 - General', event: this.changeSchemaFirst, selected: true},
+    {label: 'Sample 1 - General', event: this.changeSchemaFirst, selected: false},
     {label: 'Sample 2 - Custom bindings', event: this.changeSchemaWithBindings, selected: false},
     {label: 'Sample 3 - Otherschema', event: this.changeSchemaOtherschema, selected: false},
     {label: 'Sample 4 - Visibility binding', event: this.changeSchemaVisibilityBinding, selected: false},
+    {label: 'Sample 5 - Issue 308', event: this.changeSchemaIssue308, selected: true},
   ];
 
   constructor(
@@ -67,6 +69,7 @@ export class JsonSchemaExampleComponent implements OnInit, OnDestroy {
   }
 
   logErrors(errors) {
+    if(errors)
     console.log('ERRORS', errors);
   }
 
@@ -202,6 +205,14 @@ export class JsonSchemaExampleComponent implements OnInit, OnDestroy {
 
   changeSchemaVisibilityBinding() {
     this.schema = visibility_binding_example;
+    this.model = {};
+    this.fieldBindings = {};
+    this.fieldValidators = {};
+    this.actions = {};
+  }
+
+  changeSchemaIssue308(){
+    this.schema = issue_308;
     this.model = {};
     this.fieldBindings = {};
     this.fieldValidators = {};
