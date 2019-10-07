@@ -15,26 +15,20 @@ export class FormPropertyFactory {
   createProperty(schema: any, parent: PropertyGroup = null, propertyId?: string): FormProperty {
     let newProperty = null;
     let path = '';
-    let _canonicalPath = '';
     if (parent) {
       path += parent.path;
       if (parent.parent !== null) {
         path += '/';
-        _canonicalPath += '/';
       }
       if (parent.type === 'object') {
         path += propertyId;
-        _canonicalPath += propertyId;
       } else if (parent.type === 'array') {
         path += '*';
-        _canonicalPath += '*';
       } else {
         throw 'Instanciation of a FormProperty with an unknown parent type: ' + parent.type;
       }
-      _canonicalPath = (parent._canonicalPath || parent.path) + _canonicalPath;
     } else {
       path = '/';
-      _canonicalPath = '/';
     }
 
     if (schema.$ref) {
@@ -55,7 +49,6 @@ export class FormPropertyFactory {
     }
 
     newProperty._propertyBindingRegistry = this.propertyBindingRegistry;
-    newProperty._canonicalPath = _canonicalPath;
 
     if (newProperty instanceof PropertyGroup) {
       this.initializeRoot(newProperty);
