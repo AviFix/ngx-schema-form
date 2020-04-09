@@ -29,8 +29,8 @@ export enum PropertyBindingTypes {
  * Storage that holds all bindings that are property paths related.<br/>
  */
 export class PropertyBindings {
-  sourcesIndex: SimplePropertyIndexer = new SimplePropertyIndexer();
-  dependenciesIndex: SimplePropertyIndexer = new SimplePropertyIndexer();
+  sourcesIndex: SimplePropertyIndexer = new SimplePropertyIndexer('sourcesIndex');
+  dependenciesIndex: SimplePropertyIndexer = new SimplePropertyIndexer('dependenciesIndex');
 
   add(dependencyPath: string, sourcePropertyPath: string) {
     this.sourcesIndex.store(sourcePropertyPath, dependencyPath);
@@ -70,6 +70,11 @@ export class SimplePropertyIndexer {
   static MARKER = '$____value';
   index: object = {};
   findOnlyWithValue = true;
+  /**
+   * 
+   * @param name Simply a name to identify this index. E.g when being printed out to console.
+   */
+  constructor(private name?:string){}
 
   private _createPathIndex(path: string) {
     return path

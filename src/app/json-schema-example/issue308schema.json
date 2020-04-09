@@ -1,0 +1,107 @@
+{
+	"title": "Test VisibleIf",
+	"description": "This form is an example for visibility bindings inside array item targeting content of another property of the same array item.",
+	"type": "object",
+	"properties": {
+		"enabler": {
+			"type": "boolean",
+			"title": "Enabler",
+			"description": "This toggles 'Container 2' visibility",
+			"visibleIf": {
+				"/array": [
+					"$ANY$"
+				]
+			}
+		},
+		"array": {
+			"description": "Press 'Add' to add a new item",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"hiddenValue": {
+						"type": "string",
+						"widget": "hidden",
+						"default": "makes '/enabler' visible"
+					},
+					"container1": {
+						"title": "Container 1",
+						"description": "Visibility toggles",
+						"type": "object",
+						"properties": {
+							"enabler": {
+								"type": "boolean",
+								"title": "Enabler - /array/0/container1/enabler",
+								"description": "This should toggle 'Container 2' visibility, but doesn't. (Also toggles 'Prop2')"
+							},
+							"enabler2": {
+								"type": "boolean",
+								"title": "Enabler - container1/enabler",
+								"description": "This should toggle 'Container 2' visibility and DOES it. (Also toggles 'Prop2')"
+							},
+							"prop1": {
+								"type": "string",
+								"title": "Prop1"
+							},
+							"prop2": {
+								"type": "string",
+								"title": "Prop2",
+								"visibleIf": {
+									"enabler": [
+										true
+									],
+									"enabler2": [
+										true
+									]
+								}
+							}
+						}
+					},
+					"container2": {
+						"title": "Container 2",
+						"type": "object",
+						"properties": {
+							"enabler": {
+								"type": "boolean",
+								"title": "Enabler",
+								"description": "This toggles 'Prop2'"
+							},
+							"prop1": {
+								"type": "string",
+								"title": "Prop1"
+							},
+							"prop2": {
+								"type": "string",
+								"title": "Prop2",
+								"visibleIf": {
+									"enabler": [
+										true
+									]
+								}
+							}
+						},
+						"visibleIf": {
+							"oneOf": [
+								{
+									"container1/enabler2": [
+										true
+									]
+								},
+								{
+									"/array/0/container1/enabler": [
+										true
+									]
+								},
+								{
+									"/enabler": [
+										true
+									]
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}
